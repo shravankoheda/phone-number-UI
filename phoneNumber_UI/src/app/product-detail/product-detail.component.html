@@ -1,0 +1,33 @@
+<div>
+  Select number type : 
+  <select [(ngModel)]="numberType" (change)="clearNumber()">
+    <option value="7 Digit">7 Digit Phone number</option>
+    <option value="10 Digit">10 Digit Phone number</option>
+  </select>
+</div>
+<br>
+<br>
+<div *ngIf="numberType !== ''">
+  <span *ngIf="!validNumber && phoneNumber.length >= 7" style="color: red;">
+    Number is not valid
+  </span><br/>
+  Enter {{numberType}} Number : <input type="text" [(ngModel)]="phoneNumber" (keyup)="validatePhone()"/>
+  <button [disabled]="!validNumber" (click)="submitNumber()">Submit Number</button>
+  <div *ngIf="numberList.number">
+    Total : {{numberList.number.length}}
+    <table>
+      <tr *ngFor="let number of numberList.number.slice(startPos,endPos)">
+        <td>Number</td>
+        <td>{{number}}</td>
+      </tr>
+    </table>
+    <div>
+      <button [disabled]="pageNumber <= 1" (click)="prevPage()">Prev</button>
+      <span>
+        <input type="number" size="5" [(ngModel)]="pageNumber" min="1" max="{{(numberList.number.length/pageSize)}}" (change)="redirectPage(pageNumber)"/>
+      </span>
+      <button [disabled]="pageNumber >= (numberList.number.length/pageSize) " (click)="nextPage()">Next</button>
+    </div>
+  </div>
+</div>
+
